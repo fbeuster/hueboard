@@ -18,9 +18,9 @@
     </style>
     <title>HueBoard</title>
   </head>
-  <body class="cyan lighten-5">
+  <body class="blue-grey lighten-5">
     <header>
-      <nav class="cyan darken-3">
+      <nav class="blue-grey darken-3">
         <div class="nav-wrapper">
           <div class="row">
             <div class="col s12">
@@ -39,13 +39,13 @@
         </div>
       </div>
     </main>
-    <footer class="page-footer cyan darken-3">
-      <div class="footer-copyright cyan darken-4">
+    <footer class="page-footer blue-grey darken-3">
+      <div class="footer-copyright blue-grey darken-4">
         <div class="container">
-          &copy; 2019 <a href="https://fixel.me" class="light-blue-text text-lighten-2" target="_blank">
+          &copy; 2019 <a href="https://fixel.me" class="cyan-text text-lighten-1" target="_blank">
             Felix Beuster
           </a>
-          <a href="#open-source-modal" class="light-blue-text text-lighten-2 right modal-trigger">
+          <a href="#open-source-modal" class="cyan-text text-lighten-1 right modal-trigger">
             Open Source Licenses
           </a>
         </div>
@@ -67,7 +67,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <a href="#!" class="modal-close waves-effect waves-cyan btn-flat">Close</a>
+        <a href="#!" class="modal-close waves-effect waves-blue-grey btn-flat">Close</a>
       </div>
     </div>
   </body>
@@ -100,10 +100,11 @@
             if (username != '')
             {
               done++;
-              storage.usernames.push(username);
+              storage.map[ipaddress] = username;
 
               if (done == storage.bridges.length)
               {
+                sortUsersByBridge();
                 saveJsonToLocalStorage('usernames', storage.usernames);
                 initUsersComplete();
               }
@@ -164,6 +165,7 @@
     {
       storage.activeUsers = [];
       storage.bridges = localStorage.getItem('bridges');
+      storage.map = {};
       storage.usernames = localStorage.getItem('usernames');
 
       initBridges();
@@ -192,7 +194,7 @@
 
     function run()
     {
-
+      console.log(storage);
       storage.activeUsers[0].getLights().then(data => {
         document.getElementById('intro').textContent = 'Found ' + Object.keys(data).length + ' lights.';
       }).catch(e => console.log('Something bad happend.', e));
@@ -201,6 +203,12 @@
     function saveJsonToLocalStorage(key, value)
     {
       localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    function sortUsersByBridge() {
+      storage.bridges.forEarch(ipaddress => {
+        storage.usernames.push(storage.bridges[ipaddress]);
+      });
     }
   </script>
 </html>
