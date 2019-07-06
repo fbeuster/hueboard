@@ -15,6 +15,31 @@
       main {
         flex: 1 auto;
       }
+
+      #groupList > div {
+        display: grid;
+        grid-column-gap: 2rem;
+        grid-row-gap: 0.5rem;
+        grid-template-columns: 1fr;
+      }
+
+      @media only screen and (min-width: 661px) {
+        #groupList > div {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media only screen and (min-width: 993px) {
+        #groupList > div {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+
+      @media only screen and (min-width: 1325px) {
+        #groupList > div {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
     </style>
     <title>HueBoard</title>
   </head>
@@ -34,7 +59,12 @@
       <div class="container">
         <div class="row">
           <div class="col s12">
-            <p id="intro">Loading...</p>
+            <div id="groupList">
+              <h3>Rooms</h3>
+              <div id="roomList"></div>
+              <h3>Zones</h3>
+              <div id="zoneList"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -71,6 +101,7 @@
       </div>
     </div>
   </body>
+  <script src="lib/jquery-3.4.1.min.js" type="text/javascript"></script>
   <script src="lib/jshue-2.1.1/src/jshue.js" type="text/javascript"></script>
   <script src="lib/materialize-v1.0.0/js/materialize.min.js" type="text/javascript"></script>
   <script type="text/javascript">
@@ -145,7 +176,7 @@
         storage.activeUsers.push(user);
       }
 
-      run();
+      loadGroups();
     }
 
     function initBridges()
@@ -192,12 +223,73 @@
       }
     }
 
+    function loadGroups()
+    {
+      var done = 0;
+      storage.groups = {};
+
+      for (var i = 0; i < storage.activeUsers.length; i++)
+      {
+        storage.activeUsers[i].getGroups().then(data => {
+          storage.groups[i] = data;
+          done++;
+
+          if (done == storage.activeUsers.length)
+          {
+            run();
+          }
+        }).catch(e => console.log('Something bad happend.', e));
+      }
+    }
+
+    function renderGroup(activeUser, groupNumber)
+    {
+      var group = storage.groups[activeUser][groupNumber];
+
+      console.log('Rendering group %s of user %s', groupNumber, activeUser);
+      console.log(storage.groups[activeUser][groupNumber]);
+
+      var $cardTitle = $('<span></span>');
+      $cardTitle.addClass('card-title')
+                .text(group.name);
+
+      var $cardContent = $('<div></div>');
+      $cardContent.addClass('card-content')
+                  .append($cardTitle);
+
+      var $card = $('<div></div>');
+      $card.addClass('card hoverable')
+            .append($cardContent)
+            .attr('data-id', activeUser + '#' + groupNumber);
+
+      if (group.type == 'Room')
+      {
+        $('#roomList').append($card);
+      }
+      else
+      {
+        $('#zoneList').append($card);
+      }
+    }
+
+    function renderGroupsAllUsers()
+    {
+      for (var activeUser in storage.groups) {
+        renderGroupsSingleUser(activeUser)
+      }
+    }
+
+    function renderGroupsSingleUser(activeUser)
+    {
+      for (var groupNumber in storage.groups[activeUser])
+      {
+        renderGroup(activeUser, groupNumber);
+      }
+    }
+
     function run()
     {
-      console.log(storage);
-      storage.activeUsers[0].getLights().then(data => {
-        document.getElementById('intro').textContent = 'Found ' + Object.keys(data).length + ' lights.';
-      }).catch(e => console.log('Something bad happend.', e));
+      renderGroupsAllUsers();
     }
 
     function saveJsonToLocalStorage(key, value)
