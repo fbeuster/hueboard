@@ -3,13 +3,52 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="lib/materialize-v1.0.0/css/materialize.min.css"  media="screen,projection">
+    <style>
+      body {
+        display: flex;
+        min-height: 100vh;
+        flex-direction: column;
+      }
+
+      main {
+        flex: 1 auto;
+      }
+    </style>
     <title>HueBoard</title>
   </head>
-  <body>
-     <h1>HueBoard</h1>
-     <p id="intro">Loading...</p>
+  <body class="cyan lighten-5">
+    <header>
+      <nav class="cyan darken-3">
+        <div class="nav-wrapper">
+          <div class="row">
+            <div class="col s12">
+              <a href="#" class="brand-logo center">HueBoard</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <div class="container">
+        <div class="row">
+          <div class="col s12">
+            <p id="intro">Loading...</p>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer class="page-footer cyan darken-3">
+      <div class="footer-copyright cyan darken-4">
+        <div class="container">
+          &copy; 2019 <a href="https://fixel.me" class="light-blue-text text-lighten-2">Felix Beuster</a>
+        </div>
+      </div>
+    </footer>
   </body>
   <script src="lib/jshue-2.1.1/src/jshue.js" type="text/javascript"></script>
+  <script src="lib/materialize-v1.0.0/js/materialize.min.js" type="text/javascript"></script>
   <script type="text/javascript">
     var config = {
       pollingInterval : 5000
