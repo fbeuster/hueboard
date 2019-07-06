@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="de-DE">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HueBoard</title>
+  </head>
+  <body>
+     <h1>HueBoard</h1>
+     <p id="intro">Loading...</p>
+  </body>
+  <script src="lib/jshue-2.1.1/src/jshue.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    var config = {
+      pollingInterval : 5000
+    };
+    var hue = jsHue();
+    var storage = {};
+
+    init();
+
+    function createUsers(initUsersComplete)
+    {
+      var done = 0;
+      storage.usernames = [];
+      storage.bridges.forEach(ipaddress => {
+        var timer = createUser(ipaddress);
+
+        function createUser(ipaddress)
+        {
+          var bridge = hue.bridge(ipaddress);
+          bridge.createUser('HueBoard').then(data => {
+            var username = '';
+            username = data[0].success.username;
+
+            if (username != '')
+            {
+              done++;
+              storage.usernames.push(username);
+
+              if (done == storage.bridges.length)
+              {
+                saveJsonToLocalStorage('usernames', storage.usernames);
+                initUsersComplete();
+              }
+            }
+          }).catch(e => {
+            setTimeout(function(){
+              createUser(ipaddress);
+            }, config.pollingInterval);
+          });
+        }
+      });
+    }
+
+    function discoverBridges()
+    {
+      storage.bridges = [];
+
+      hue.discover().then(foundBridges => {
+        if (foundBridges.length == 0)
+        {
+          console.log('No bridges found :(');
+        }
+        else
+        {
+          foundBridges.forEach(b => storage.bridges.push(b.internalipaddress));
+          saveJsonToLocalStorage('bridges', storage.bridges);
+          initUsers(initActiveUsers);
+        }
+      }).catch(e => console.log('Error finding bridges.', e));
+    }
+
+    function initActiveUsers()
+    {
+      for (var i = 0; i < storage.bridges.length; i++)
+      {
+        var bridge = hue.bridge(storage.bridges[i]);
+        var user = bridge.user(storage.usernames[i]);
+        storage.activeUsers.push(user);
+      }
+
+      run();
+    }
+
+    function init()
+    {
+      storage.activeUsers = [];
+      storage.bridges = localStorage.getItem('bridges');
+      storage.usernames = localStorage.getItem('usernames');
+
+      initBridges();
+    }
+
+    function initBridges()
+    {
+      if (storage.bridges != null)
+      {
+        storage.bridges = JSON.parse(storage.bridges);
+        initUsers(initActiveUsers);
+      }
+      else
+      {
+        discoverBridges();
+      }
+    }
+
+    function initUsers(initUsersComplete)
+    {
+      if (storage.usernames != null)
+      {
+        storage.usernames = JSON.parse(storage.usernames);
+        initUsersComplete();
+      }
+      else
+      {
+        createUsers(initUsersComplete);
+      }
+    }
+
+    function run()
+    {
+
+      storage.activeUsers[0].getLights().then(data => {
+        document.getElementById('intro').textContent = 'Found ' + Object.keys(data).length + ' lights.';
+      }).catch(e => console.log('Something bad happend.', e));
+    }
+
+    function saveJsonToLocalStorage(key, value)
+    {
+      localStorage.setItem(key, JSON.stringify(value));
+    }
+  </script>
+</html>
