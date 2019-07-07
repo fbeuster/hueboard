@@ -65,5 +65,8 @@ hueboard.app = {
   run : function()
   {
     hueboard.app.renderGroupsAllUsers();
+    $('#dashboardSpinner').addClass('hide');
+    $('#main').removeClass('valign-wrapper');
+    $('#groupList').removeClass('hide');
   }
 }

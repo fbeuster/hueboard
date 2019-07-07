@@ -4,6 +4,7 @@ hueboard.hue = {
 
   createUsers: function(initUsersComplete)
   {
+    hueboard.util.setDashboardSpinnerMessage('Creating users');
     var done = 0;
     hueboard.storage.set('usernames', []);
     hueboard.storage.get('bridges').forEach(ipaddress => {
@@ -39,6 +40,7 @@ hueboard.hue = {
 
   discoverBridges : function()
   {
+    hueboard.util.setDashboardSpinnerMessage('Waiting for bridge button presses');
     hueboard.storage.set('bridges', []);
 
     hueboard.jsHue.discover().then(foundBridges => {
@@ -69,6 +71,7 @@ hueboard.hue = {
 
   initActiveUsers : function()
   {
+    hueboard.util.setDashboardSpinnerMessage('Creating users');
     for (var i = 0; i < hueboard.storage.get('bridges').length; i++)
     {
       var bridge = hueboard.jsHue.bridge(hueboard.storage.get('bridges')[i]);
@@ -81,6 +84,7 @@ hueboard.hue = {
 
   initBridges : function()
   {
+    hueboard.util.setDashboardSpinnerMessage('Loading bridges');
     if (hueboard.storage.get('bridges') != null)
     {
       hueboard.storage.set('bridges', JSON.parse(hueboard.storage.get('bridges')));
@@ -94,6 +98,7 @@ hueboard.hue = {
 
   initUsers : function(initUsersComplete)
   {
+    hueboard.util.setDashboardSpinnerMessage('Loading users');
     if (hueboard.storage.get('usernames') != null)
     {
       hueboard.storage.set('usernames', JSON.parse(hueboard.storage.get('usernames')));
@@ -107,6 +112,7 @@ hueboard.hue = {
 
   loadGroups : function()
   {
+    hueboard.util.setDashboardSpinnerMessage('Loading groups');
     var done = 0;
     var nActiveUsers = hueboard.storage.get('activeUsers').length;
     hueboard.storage.set('groups', {});

@@ -16,6 +16,11 @@
         flex: 1 auto;
       }
 
+      #dashboardSpinner .message {
+        font-size: 1.25rem;
+        margin-top: 1rem;
+      }
+
       #groupList > div {
         display: grid;
         grid-column-gap: 2rem;
@@ -91,11 +96,28 @@
         </div>
       </nav>
     </header>
-    <main>
+    <main id="main" class="valign-wrapper">
       <div class="container">
         <div class="row">
           <div class="col s12">
-            <div id="groupList">
+            <!-- Loading spinner -->
+            <div id="dashboardSpinner" class="center-align">
+              <div class="preloader-wrapper big active">
+                <div class="spinner-layer spinner-blue-only">
+                  <div class="circle-clipper left">
+                    <div class="circle"></div>
+                  </div><div class="gap-patch">
+                    <div class="circle"></div>
+                  </div><div class="circle-clipper right">
+                    <div class="circle"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="message">Loading</div>
+            </div>
+
+            <!-- Group list -->
+            <div id="groupList" class="hide">
               <h3>Rooms</h3>
               <div id="roomList"></div>
               <h3>Zones</h3>
