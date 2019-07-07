@@ -1,6 +1,3 @@
-
-var hueboard = hueboard || {};
-
 hueboard.philips = {
   classNameMap : {
     'Attic' : 'Attic',

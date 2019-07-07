@@ -2,4 +2,8 @@
 *.sublime-project
 *.sublime-workspace
 
+# raw resources
 resources/
+
+# compiled files
+*_compiled.js
