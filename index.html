@@ -23,7 +23,35 @@
         grid-template-columns: 1fr;
       }
 
+      .card .card-content .card-title {
+        display: flex;
+        align-items: center;
+      }
+
+      .card .card-content .card-title img {
+        margin-right: 1rem;
+      }
+
+      .modal .modal-content h4 {
+        display: flex;
+        align-items: center;
+      }
+
+      .modal .modal-content h4 img {
+        margin-right: 1rem;
+      }
+
+      @media only screen and (min-width: 601px) {
+        .container {
+          width: 90%;
+        }
+      }
+
       @media only screen and (min-width: 661px) {
+        .container {
+          width: 85%;
+        }
+
         #groupList > div {
           grid-template-columns: repeat(2, 1fr);
         }
@@ -32,6 +60,10 @@
       @media only screen and (min-width: 993px) {
         #groupList > div {
           grid-template-columns: repeat(3, 1fr);
+        }
+
+        #room-modal {
+          width: 75%;
         }
       }
 
@@ -82,6 +114,7 @@
       </div>
     </footer>
 
+    <!-- Open Source Modal -->
     <div id="open-source-modal" class="modal">
       <div class="modal-content">
         <h4 class="">Open source licenses</h4>
@@ -94,12 +127,30 @@
             <span class="badge"><i class="material-icons">link</i></span>
             MaterializeCSS
           </a>
+          <a href="https://developers.meethue.com/develop/application-design-guidance/icon-pack/" class="collection-item" target="_blank">
+            <span class="badge"><i class="material-icons">link</i></span>
+            Philips Hue Icon Pack
+          </a>
         </div>
       </div>
       <div class="modal-footer">
         <a href="#!" class="modal-close waves-effect waves-blue-grey btn-flat">Close</a>
       </div>
     </div>
+
+    <!-- Room Modal -->
+    <div id="room-modal" class="modal">
+      <div class="modal-content">
+        <h4>
+          <img src="assets/img/huePackPng/roomsOther.png">
+          <span>A Room</span>
+        </h4>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-blue-grey btn-flat">Close</a>
+      </div>
+    </div>
+
   </body>
   <script src="lib/jquery-3.4.1.min.js" type="text/javascript"></script>
   <script src="lib/jshue-2.1.1/src/jshue.js" type="text/javascript"></script>
@@ -206,9 +257,8 @@
 
     function initMaterialize()
     {
-      document.addEventListener('DOMContentLoaded', function() {
-        var elems = document.querySelectorAll('.modal');
-        var instances = M.Modal.init(elems, {});
+      $(document).ready(function(){
+        $('.modal').modal();
       });
     }
 
@@ -248,24 +298,35 @@
     {
       var group = storage.groups[activeUser][groupNumber];
 
-      var $cardTitle = $('<span></span>');
-      $cardTitle.addClass('card-title')
-                .text(group.name);
+      var $cardText = $('<span></span>');
+      $cardText.text(group.name);
 
       var $cardIcon = $('<img/>');
       var src = 'assets/img/huePackPng/' + hueboard.philips.mapToFileName(group.class);
       $cardIcon.addClass('card-icon')
                 .attr('src', src);
 
+      var $cardTitle = $('<div></div>');
+      $cardTitle.addClass('card-title')
+                  .append($cardIcon)
+                  .append($cardText);
+
       var $cardContent = $('<div></div>');
       $cardContent.addClass('card-content')
-                  .append($cardIcon)
                   .append($cardTitle);
 
       var $card = $('<div></div>');
       $card.addClass('card hoverable ' + hueboard.philips.mapToClassName(group.class))
             .append($cardContent)
-            .attr('data-id', activeUser + '#' + groupNumber);
+            .attr('data-id', activeUser + '#' + groupNumber)
+            .click(function(){
+              var $modal = $('#room-modal');
+              $modal.find('.modal-content h4 img')
+                    .attr('src', src);
+              $modal.find('.modal-content h4 span')
+                    .text(group.name);
+              M.Modal.getInstance($modal).open();
+            });
 
       if (group.type == 'Room')
       {
