@@ -1,3 +1,5 @@
 # workspace related
 *.sublime-project
 *.sublime-workspace
+
+resources/

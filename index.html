@@ -242,23 +242,132 @@
       }
     }
 
+    function mapGroupClassToFileName(name)
+    {
+      var fileNameMap = {
+        'Attic' : 'roomsAttic',
+        'Balcony' : 'roomsBalcony',
+        'Barbecue' : 'roomsSocialtime',
+        'Bathroom' : 'roomsBathroom',
+        'Bedroom' : 'roomsBedroom',
+        'Carport' : 'roomsCarport',
+        'Closet' : 'roomsCloset',
+        'Computer' : 'roomsComputer',
+        'Dining' : 'roomsDining',
+        'Downstairs' : 'zonesAreasGroundfloor',
+        'Driveway' : 'roomsDriveway',
+        'Front door' : 'roomsFrontdoor',
+        'Garage' : 'roomsGarage',
+        'Garden' : 'roomsOutdoor',
+        'Guest room' : 'roomsGuestRoom',
+        'Gym' : 'roomsGym',
+        'Hallway' : 'roomsHallway',
+        'Home' : 'tabbarHome',
+        'Kids bedroom' : 'roomsKidsbedroom',
+        'Kitchen' : 'roomsKitchen',
+        'Laundry room' : 'roomsLaundryroom',
+        'Living room' : 'roomsLiving',
+        'Lounge' : 'roomsLounge',
+        'Man cave' : 'roomsMancave',
+        'Music' : 'otherMusic',
+        'Nursery' : 'roomsNursery',
+        'Office' : 'roomsOffice',
+        'Other' : 'roomsOther',
+        'Pool' : 'roomsPool',
+        'Porch' : 'roomsPorch',
+        'Reading' : 'otherReading',
+        'Recreation' : 'roomsRecreation',
+        'Staircase' : 'roomsStaircase',
+        'Storage' : 'roomsStorage',
+        'Studio' : 'roomsStudio',
+        'Terrace' : 'roomsTerrace',
+        'Toilet' : 'roomsToilet',
+        'Top floor' : 'zonesAreasSecondFloor',
+        'TV' : 'otherWatchingMovie',
+        'Upstairs' : 'zonesAreasFirstfloor'
+      }
+
+      if (name in fileNameMap)
+      {
+        return fileNameMap[name];
+      }
+
+      return 'roomsOther';
+    }
+
+    function mapGroupClassToClassName(name)
+    {
+      var classMap = {
+        'Attic' : 'Attic',
+        'Balcony' : 'Balcony',
+        'Barbecue' : 'Barbecue',
+        'Bathroom' : 'Bathroom',
+        'Bedroom' : 'Bedroom',
+        'Carport' : 'Carport',
+        'Closet' : 'Closet',
+        'Computer' : 'Computer',
+        'Dining' : 'Dining',
+        'Downstairs' : 'Downstairs',
+        'Driveway' : 'Driveway',
+        'Front door' : 'FrontDoor',
+        'Garage' : 'Garage',
+        'Garden' : 'Garden',
+        'Guest room' : 'GuestRoom',
+        'Gym' : 'Gym',
+        'Hallway' : 'Hallway',
+        'Home' : 'Home',
+        'Kids bedroom' : 'KidsBedroom',
+        'Kitchen' : 'Kitchen',
+        'Laundry room' : 'LaundryRoom',
+        'Living room' : 'LivingRoom',
+        'Lounge' : 'Lounge',
+        'Man cave' : 'ManCave',
+        'Music' : 'Music',
+        'Nursery' : 'Nursery',
+        'Office' : 'Office',
+        'Other' : 'Other',
+        'Pool' : 'Pool',
+        'Porch' : 'Porch',
+        'Reading' : 'Reading',
+        'Recreation' : 'Recreation',
+        'Staircase' : 'Staircase',
+        'Storage' : 'Storage',
+        'Studio' : 'Studio',
+        'Terrace' : 'Terrace',
+        'Toilet' : 'Toilet',
+        'Top floor' : 'TopFloor',
+        'TV' : 'TV',
+        'Upstairs' : 'Upstairs'
+      }
+
+      if (name in classMap)
+      {
+        return classMap[name];
+      }
+
+      return 'Other';
+    }
+
     function renderGroup(activeUser, groupNumber)
     {
       var group = storage.groups[activeUser][groupNumber];
-
-      console.log('Rendering group %s of user %s', groupNumber, activeUser);
-      console.log(storage.groups[activeUser][groupNumber]);
 
       var $cardTitle = $('<span></span>');
       $cardTitle.addClass('card-title')
                 .text(group.name);
 
+      var $cardIcon = $('<img/>');
+      var fileName = 'rooms' + group.class;
+      $cardIcon.addClass('card-icon')
+                .attr('src', 'assets/img/huePackPng/' + mapGroupClassToFileName(group.class) + '.png');
+
       var $cardContent = $('<div></div>');
       $cardContent.addClass('card-content')
+                  .append($cardIcon)
                   .append($cardTitle);
 
       var $card = $('<div></div>');
-      $card.addClass('card hoverable')
+      $card.addClass('card hoverable rooms' + mapGroupClassToClassName(group.class))
             .append($cardContent)
             .attr('data-id', activeUser + '#' + groupNumber);
 
