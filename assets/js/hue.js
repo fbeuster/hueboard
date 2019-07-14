@@ -46,7 +46,7 @@ hueboard.hue = {
     hueboard.jsHue.discover().then(foundBridges => {
       if (foundBridges.length == 0)
       {
-        console.log('No bridges found :(');
+        hueboard.util.setDashboardSpinnerMessage('No bridges found :(');
       }
       else
       {
