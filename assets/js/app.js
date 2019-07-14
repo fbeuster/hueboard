@@ -61,12 +61,16 @@ hueboard.app = {
         var light     = data[id],
             checked   = light.state.on ? ' checked' : '',
             $name     = $('<span></span>').text(light.name),
-            $toggle   = $('<div class="switch secondary-content"><label>Off<input' + checked + ' type="checkbox"><span class="lever"></span>On</label></div>'),
+            $toggle   = $('<div class="switch secondary-content"><label>Off<input id="hueLight_' + id + '"' + checked + ' type="checkbox"><span class="lever"></span>On</label></div>'),
             $content  = $('<div></div>').append($name)
                                         .append($toggle),
             $light    = $('<li></li>').addClass('collection-item')
                                       .attr('data-id', id)
                                       .append($content)
+                                      .on('click',
+                                          '#hueLight_' + id,
+                                          {id: id, user: user},
+                                          hueboard.app.toggleLightOnOff)
                                       .appendTo($list);
       });
       $modal.find('#roomSpinner').fadeOut(400, function(){
@@ -96,5 +100,18 @@ hueboard.app = {
     $('#dashboardSpinner').addClass('hide');
     $('#main').removeClass('valign-wrapper');
     $('#groupList').removeClass('hide');
+  },
+
+  toggleLightOnOff : function(event) {
+    var activeUser = hueboard.storage.get('activeUsers')[event.data.user]
+
+    if ($(this).is(':checked'))
+    {
+      activeUser.setLightState(event.data.id, {'on' : true});
+    }
+    else
+    {
+      activeUser.setLightState(event.data.id, {'on' : false});
+    }
   }
 }
