@@ -9,7 +9,7 @@ var hueboard = hueboard || {};
 $(document).ready(function(){
   hueboard.jsHue = jsHue();
 
-  initChangelog;
+  initChangelog();
   initMaterialize();
   hueboard.hue.init(hueboard.app.run);
 

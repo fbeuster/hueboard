@@ -34,28 +34,62 @@
       <div class="container">
         <div class="row">
           <div class="col s12">
-            <!-- Loading spinner -->
-            <div id="dashboardSpinner" class="center-align spinner-margin">
-              <div class="preloader-wrapper big active">
-                <div class="spinner-layer spinner-blue-only">
-                  <div class="circle-clipper left">
-                    <div class="circle"></div>
-                  </div><div class="gap-patch">
-                    <div class="circle"></div>
-                  </div><div class="circle-clipper right">
-                    <div class="circle"></div>
+            <!-- Group list -->
+            <div id="groupList">
+              <h3>Rooms</h3>
+              <div id="roomList">
+                <div class="card hoverable">
+                  <div class="card-content">
+                    <div class="card-title">
+                      <img src="assets/img/huePackPng/roomsLiving.png" alt="living room icon" class="card-icon">
+                      <span>Living room</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="card hoverable">
+                  <div class="card-content">
+                    <div class="card-title">
+                      <img src="assets/img/huePackPng/roomsBedroom.png" alt="bedroom icon" class="card-icon">
+                      <span>Bedroom</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="card hoverable">
+                  <div class="card-content">
+                    <div class="card-title">
+                      <img src="assets/img/huePackPng/roomsKitchen.png" alt="kitchen icon" class="card-icon">
+                      <span>Kitchen</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="card hoverable">
+                  <div class="card-content">
+                    <div class="card-title">
+                      <img src="assets/img/huePackPng/roomsPorch.png" alt="porch icon" class="card-icon">
+                      <span>Porch</span>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="message">Loading</div>
-            </div>
-
-            <!-- Group list -->
-            <div id="groupList" class="hide">
-              <h3>Rooms</h3>
-              <div id="roomList"></div>
               <h3>Zones</h3>
-              <div id="zoneList"></div>
+              <div id="zoneList">
+                <div class="card hoverable">
+                  <div class="card-content">
+                    <div class="card-title">
+                      <img src="assets/img/huePackPng/tabbarHome.png" alt="home icon" class="card-icon">
+                      <span>Home</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="card hoverable">
+                  <div class="card-content">
+                    <div class="card-title">
+                      <img src="assets/img/huePackPng/roomsAttic.png" alt="attic icon" class="card-icon">
+                      <span>Attic</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -125,7 +159,47 @@
           </div>
           <div class="message">Loading</div>
         </div>
-        <ul class="collection"></ul>
+        <ul class="collection">
+          <li class="collection-item">
+            <div>
+              <span>First light</span>
+              <div class="switch secondary-content">
+                <label>
+                  Off
+                  <input type="checkbox">
+                  <span class="lever"></span>
+                  On
+                </label>
+              </div>
+            </div>
+          </li>
+          <li class="collection-item">
+            <div>
+              <span>Second light</span>
+              <div class="switch secondary-content">
+                <label>
+                  Off
+                  <input type="checkbox">
+                  <span class="lever"></span>
+                  On
+                </label>
+              </div>
+            </div>
+          </li>
+          <li class="collection-item">
+            <div>
+              <span>Third light</span>
+              <div class="switch secondary-content">
+                <label>
+                  Off
+                  <input type="checkbox">
+                  <span class="lever"></span>
+                  On
+                </label>
+              </div>
+            </div>
+          </li>
+        </ul>
       </div>
       <div class="modal-footer">
         <a href="#!" class="modal-close waves-effect waves-blue-grey btn-flat">Close</a>
@@ -178,5 +252,56 @@
   <script src="lib/jquery-3.4.1.min.js" type="text/javascript"></script>
   <script src="lib/jshue-2.1.1/src/jshue.js" type="text/javascript"></script>
   <script src="lib/materialize-v1.0.0/js/materialize.min.js" type="text/javascript"></script>
-  <script src="assets/js/hueboard_compiled.js" type="text/javascript"></script>
+  <script type="text/javascript">
+
+$(document).ready(function(){
+  initChangelog();
+  initMaterialize();
+  initCards();
+
+  function initCards()
+  {
+    $('#groupList .card').click(function(){
+      var $modal  = $('#room-modal'),
+          $list   = $modal.find('ul.collection'),
+          title   = $(this).find('.card-title span').text();
+
+      $modal.find('h4 span').text(title);
+      $('#roomSpinner').show(0);
+      $list.hide(0);
+
+      M.Modal.getInstance($modal).open();
+
+        $('#roomSpinner').fadeOut(400, function(){
+          $list.fadeIn();
+        });
+    });
+  }
+
+  function initChangelog()
+  {
+    $.getJSON('changelog.json', function(changelog){
+      var $list = $('#changelog-modal .collection');
+
+      for (var version in changelog)
+      {
+        $('<li></li>').addClass('collection-header')
+                      .html('<h4>' + version + '</h4>')
+                      .appendTo($list);
+        $.each(changelog[version], function(item){
+          $('<li></li>').addClass('collection-item')
+                        .text(changelog[version][item])
+                        .appendTo($list);
+        });
+      }
+    });
+  }
+
+  function initMaterialize()
+  {
+    $('.modal').modal();
+    $('.sidenav').sidenav();
+  }
+});
+  </script>
 </html>
