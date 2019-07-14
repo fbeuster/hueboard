@@ -14,11 +14,21 @@
         <div class="nav-wrapper">
           <div class="row">
             <div class="col s12">
-              <a href="#" class="brand-logo center">HueBoard</a>
+              <a href="#" class="brand-logo">HueBoard - Home light control</a>
+              <a href="#" data-target="sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+              <ul class="right hide-on-med-and-down">
+                <li><a href="#">Demo</a></li>
+                <li><a href="#">About</a></li>
+              </ul>
             </div>
           </div>
         </div>
       </nav>
+
+      <ul class="sidenav" id="sidenav">
+        <li><a href="#">Demo</a></li>
+        <li><a href="#">About</a></li>
+      </ul>
     </header>
     <main id="main" class="valign-wrapper">
       <div class="container">
@@ -62,6 +72,9 @@
           </a>
           <a href="#open-source-modal" class="cyan-text text-lighten-1 right modal-trigger">
             Open Source Licenses
+          </a>
+          <a href="#changelog-modal" class="cyan-text text-lighten-1 right modal-trigger">
+            Changelog
           </a>
         </div>
       </div>
@@ -113,6 +126,19 @@
           <div class="message">Loading</div>
         </div>
         <ul class="collection"></ul>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-blue-grey btn-flat">Close</a>
+      </div>
+    </div>
+
+    <!-- Changelog Modal -->
+    <div id="changelog-modal" class="modal">
+      <div class="modal-content">
+        <h4>
+          Changelog
+        </h4>
+        <ul class="collection with-header"></ul>
       </div>
       <div class="modal-footer">
         <a href="#!" class="modal-close waves-effect waves-blue-grey btn-flat">Close</a>

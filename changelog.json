@@ -1,0 +1,7 @@
+{
+  "Version 0.1" : [
+    "Toggle on/off state of individual lights",
+    "Open room/zone to show list of lights in this room/zone",
+    "Overview of all connected rooms and zones"
+  ]
+}

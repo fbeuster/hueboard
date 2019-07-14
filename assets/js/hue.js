@@ -4,7 +4,7 @@ hueboard.hue = {
 
   createUsers: function(initUsersComplete)
   {
-    hueboard.util.setDashboardSpinnerMessage('Creating users');
+    hueboard.util.setDashboardSpinnerMessage('Waiting for bridge button presses');
     var done = 0;
     hueboard.storage.set('usernames', []);
     hueboard.storage.get('bridges').forEach(ipaddress => {
@@ -40,7 +40,7 @@ hueboard.hue = {
 
   discoverBridges : function()
   {
-    hueboard.util.setDashboardSpinnerMessage('Waiting for bridge button presses');
+    hueboard.util.setDashboardSpinnerMessage('Searching bridges...');
     hueboard.storage.set('bridges', []);
 
     hueboard.jsHue.discover().then(foundBridges => {
