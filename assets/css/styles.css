@@ -8,7 +8,7 @@ main {
   flex: 1 auto;
 }
 
-#dashboardSpinner .message {
+.spinner-margin .message {
   font-size: 1.25rem;
   margin-top: 1rem;
 }

@@ -18,7 +18,7 @@
               <a href="#" data-target="sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
               <ul class="right hide-on-med-and-down">
                 <li><a href="#">Demo</a></li>
-                <li><a href="#">About</a></li>
+                <li><a href="#about-modal" class="modal-trigger">About</a></li>
               </ul>
             </div>
           </div>
@@ -27,7 +27,7 @@
 
       <ul class="sidenav" id="sidenav">
         <li><a href="#">Demo</a></li>
-        <li><a href="#">About</a></li>
+        <li><a href="#about-modal" class="modal-trigger">About</a></li>
       </ul>
     </header>
     <main id="main" class="valign-wrapper">
@@ -35,7 +35,7 @@
         <div class="row">
           <div class="col s12">
             <!-- Loading spinner -->
-            <div id="dashboardSpinner" class="center-align">
+            <div id="dashboardSpinner" class="center-align spinner-margin">
               <div class="preloader-wrapper big active">
                 <div class="spinner-layer spinner-blue-only">
                   <div class="circle-clipper left">
@@ -111,7 +111,7 @@
           <img src="assets/img/huePackPng/roomsOther.png">
           <span>A Room</span>
         </h4>
-        <div id="roomSpinner" class="center-align">
+        <div id="roomSpinner" class="center-align spinner-margin">
           <div class="preloader-wrapper big active">
             <div class="spinner-layer spinner-blue-only">
               <div class="circle-clipper left">
@@ -126,6 +126,35 @@
           <div class="message">Loading</div>
         </div>
         <ul class="collection"></ul>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-blue-grey btn-flat">Close</a>
+      </div>
+    </div>
+
+    <!-- About Modal -->
+    <div id="about-modal" class="modal">
+      <div class="modal-content">
+        <h4>
+          About HueBoard
+        </h4>
+        <p>
+          HueBoard is a browser based control panel for the Philips Hue system in your home. Turning on the lights is just a click away (more features soon).
+        </p>
+        <p>
+          This website uses the <a href="https://developers.meethue.com/develop/hue-api/">Hue API</a> and <a href="https://github.com/blargoner/jshue">JavaScript</a> to talk to the bridges in your home. As a result, no login required (except pressing the button on your local bridge), all the data of your home, lights, groups etc. stays on your device.
+        </p>
+        <p>
+          But why having a website, that is essentially the same as the app? Good question. It came from a personal preference. When I'm sitting at the computer in my home office, it's easier for me to pull up a website than looking for my phone, unlock it, opening up the app, opening the room and turning on a light. You could also use this website in fullscreen mode on a wall mounted tablet etc.
+        </p>
+        <h5>Features</h5>
+        <p>
+          To get a feel of all the features, you can check out the <a href="demo.html">demo page</a>. But here's a broad overview of all features:
+        </p>
+        <ul class="collection">
+          <li class="collection-item">Overview of rooms and zones</li>
+          <li class="collection-item">Control individual light's on/off state for each room/zone</li>
+        </ul>
       </div>
       <div class="modal-footer">
         <a href="#!" class="modal-close waves-effect waves-blue-grey btn-flat">Close</a>
