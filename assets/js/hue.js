@@ -120,8 +120,9 @@ hueboard.hue = {
 
     for (var i = 0; i < nActiveUsers; i++)
     {
-      hueboard.storage.get('activeUsers')[i].getGroups().then(data => {
-        hueboard.storage.get('groups')[i] = data;
+      var group = i;
+      hueboard.storage.get('activeUsers')[group].getGroups().then(data => {
+        hueboard.storage.get('groups')[group] = data;
         done++;
 
         if (done == nActiveUsers)

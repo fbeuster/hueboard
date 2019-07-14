@@ -10,6 +10,8 @@ hueboard.app = {
     $modal.find('.modal-content h4 span')
           .text(group.name);
 
+    hueboard.app.loadLightsOfRoom($modal, event.data.user, group.lights);
+
     M.Modal.getInstance($modal).open();
   },
 
@@ -35,7 +37,7 @@ hueboard.app = {
                           hueboard.philips.mapToClassName(group.class));
     $card.append($cardContent)
           .attr('data-id', activeUser + '#' + groupNumber)
-          .click({group: group}, hueboard.app.initGroupModal);
+          .click({user: activeUser, group: group}, hueboard.app.initGroupModal);
 
     if (group.type == 'Room')
     {
@@ -45,6 +47,32 @@ hueboard.app = {
     {
       $('#zoneList').append($card);
     }
+  },
+
+  loadLightsOfRoom : function($modal, user, lights) {
+    var $list       = $modal.find('.collection'),
+        activeUser  = hueboard.storage.get('activeUsers')[user];
+    $list.hide(0).html('');
+    $modal.find('#roomSpinner').show(0);
+
+    activeUser.getLights().then(data => {
+
+      lights.forEach(id => {
+        var light     = data[id],
+            checked   = light.state.on ? ' checked' : '',
+            $name     = $('<span></span>').text(light.name),
+            $toggle   = $('<div class="switch secondary-content"><label>Off<input' + checked + ' type="checkbox"><span class="lever"></span>On</label></div>'),
+            $content  = $('<div></div>').append($name)
+                                        .append($toggle),
+            $light    = $('<li></li>').addClass('collection-item')
+                                      .attr('data-id', id)
+                                      .append($content)
+                                      .appendTo($list);
+      });
+      $modal.find('#roomSpinner').fadeOut(400, function(){
+        $list.fadeIn();
+      });
+    }).catch(e => console.log('Something bad happend.', e));
   },
 
   renderGroupsAllUsers : function()
